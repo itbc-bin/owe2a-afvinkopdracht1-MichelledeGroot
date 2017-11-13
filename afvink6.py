@@ -7,12 +7,8 @@ def main():
     headers, seqs = lees_inhoud(bestand) 
         
     zoekwoord = input("Geef een zoekwoord op: ")
-
     is_dna(seqs, zoekwoord, headers)
-
     knipt(seqs, headers, zoekwoord)
-
-    # schrijf hier de rest van de code nodig om de aanroepen te doen
     
     
 def lees_inhoud(bestands_naam):
@@ -39,7 +35,6 @@ def lees_inhoud(bestands_naam):
         seq = seq.replace("\n","")
         headers.append(header)
         seqs.append(seq)
-
     
     """
     Schrijf hier je eigen code die het bestand inleest en deze splitst in headers en sequenties.
@@ -54,8 +49,6 @@ def lees_inhoud(bestands_naam):
     
 def is_dna(seq, zoek, header):
     
-    
-    #for i in range(len(seq)):
     if zoek in header:
         s = set(seq)
         if s.issubset({"A","C","T","G"}):
@@ -73,21 +66,28 @@ def is_dna(seq, zoek, header):
 def knipt(seqs, headers, zoek):
 
     enzym = []
-    with open("enzymen.txt") as openfile:
-        enzym = list(openfile)
+    try:
+        with open("enzyme.txt") as openfile:
+            enzym = list(openfile)
 
-    for x in range(len(seqs)):
-        if zoek in headers[x]:
-            print(headers[x])
-            print(is_dna(seqs[x], zoek, headers[x]))        
+    
+        for x in range(len(seqs)):
+            if zoek in headers[x]:
+                print(headers[x])
+                print(is_dna(seqs[x], zoek, headers[x]))        
 
-            for i in enzym:
-                enzymnaam, seq = i.split()
-                seq = seq.replace("^", "")
-                if seq in seqs[x]:
+                for i in enzym:
+                    enzymnaam, seq = i.split()
+                    seq = seq.replace("^", "")
+                    if seq in seqs[x]:
 
-                    print(enzymnaam, "knipt op plaats", seqs[x].index(seq), "in sequentie",x+1)
-            print("-"*40)
+                        print(enzymnaam, "knipt op plaats", seqs[x].index(seq), "in sequentie",x+1)
+                print("-"*40)
+            
+    except Exception as err:
+        print("Error: ", str(err))
+    
+
                     
     """
     Bij deze functie kan je een deel van de code die je de afgelopen 2 afvinkopdrachten geschreven hebt herbruiken
